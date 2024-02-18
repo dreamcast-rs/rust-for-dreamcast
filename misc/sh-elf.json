@@ -1,0 +1,16 @@
+{
+  "arch": "mips",
+  "os": "kallistios",
+  "data-layout": "e-m:m-p:32:32-i8:8:32-i16:16:32-i64:64-n32-S64",
+  "env": "newlib",
+  "has-rpath": false,
+  "llvm-target": "mips-unknown-linux-gnu",
+  "max-atomic-width": 32,
+  "position-independent-executables": false,
+  "panic-strategy": "abort",
+  "linker-flavor": "gcc",
+  "split-debuginfo": "off",
+  "target-endian": "little",
+  "target-pointer-width": "32",
+  "exe-suffix": ".elf"
+}

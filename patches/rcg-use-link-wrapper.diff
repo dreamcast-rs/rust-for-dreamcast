@@ -1,0 +1,12 @@
+diff --color -ruN rustc_codegen_gcc/build_system/src/config.rs rustc_codegen_gcc-fixed/build_system/src/config.rs
+--- rustc_codegen_gcc/build_system/src/config.rs	2024-02-03 00:08:39.969395161 -0600
++++ rustc_codegen_gcc-fixed/build_system/src/config.rs	2024-02-03 00:13:54.485060161 -0600
+@@ -134,7 +134,7 @@
+             if self.target_triple.is_empty() {
+                 return Err("Unknown non-native platform".to_string());
+             }
+-            linker = Some(format!("-Clinker={}-gcc", self.target_triple));
++            linker = Some(format!("-Clinker=sh-link-wrapper"));
+             self.run_in_vm = true;
+         }
+ 
