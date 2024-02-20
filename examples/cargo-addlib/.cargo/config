@@ -1,2 +1,0 @@
-[target.sh-elf]
-linker = "sh-link-wrapper"

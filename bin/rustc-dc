@@ -7,6 +7,7 @@ export LD_LIBRARY_PATH="$CG_GCCJIT_GCC_PATH"
 export LIBRARY_PATH="$CG_GCCJIT_GCC_PATH"
 
 rustc +$(cat $CG_GCCJIT_DIR/rust-toolchain | grep 'channel' | cut -d '=' -f 2 | sed 's/"//g' | sed 's/ //g') \
+    $CG_RUSTFLAGS \
     -Cpanic=abort \
     -Zcodegen-backend=$CG_GCCJIT_DIR/target/release/librustc_codegen_gcc.so \
     --sysroot $CG_GCCJIT_DIR/build_sysroot/sysroot \

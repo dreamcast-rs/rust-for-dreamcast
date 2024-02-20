@@ -8,7 +8,9 @@ case "$1" in
         $CG_GCCJIT_DIR/y.sh cargo
         ;;
     "build" )
-        $CG_GCCJIT_DIR/y.sh cargo $@ --target $CG_GCCJIT_DIR/../misc/sh-elf.json
+        $CG_GCCJIT_DIR/y.sh cargo $@ \
+            --config "target.sh-elf.linker=\"sh-link-wrapper\"" \
+            --target $CG_GCCJIT_DIR/../misc/sh-elf.json
         ;;
     "run" )
         if [ "$KOS_LOADER" = "" ]; then
