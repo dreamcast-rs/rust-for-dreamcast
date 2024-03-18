@@ -8,7 +8,7 @@
 ###############################################################################
 ###############################################################################
 ### THIS CONFIG IS FOR AN EXPERIMENTAL VERSION OF GCC!
-## THERE ARE NO KNOWN ISSUES BUILDING THIS VERSION as of 2024-02-01.
+## THERE ARE NO KNOWN ISSUES BUILDING THIS VERSION as of 2024-03-17.
 ###############################################################################
 ###############################################################################
 
@@ -16,7 +16,7 @@
 sh_binutils_ver=2.42
 sh_gcc_ver=rustc
 newlib_ver=4.4.0.20231231
-gdb_ver=14.1
+gdb_ver=14.2
 
 # Tarball extensions to download for SH
 sh_binutils_download_type=xz
