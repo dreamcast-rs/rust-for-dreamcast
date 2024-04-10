@@ -11,7 +11,7 @@ patch_rcg()
         exit 1
     fi
     patch_failed=0
-    for diff in ../patches/*.diff; do
+    for diff in ../patches/rcg/*.diff; do
         patch -p1 < "$diff"
         if [ $? -eq 1 ]; then
             patch_failed=1

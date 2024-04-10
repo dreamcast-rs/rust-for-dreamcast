@@ -10,7 +10,7 @@ rustc +$(cat $CG_GCCJIT_DIR/rust-toolchain | grep 'channel' | cut -d '=' -f 2 | 
     $CG_RUSTFLAGS \
     -Cpanic=abort \
     -Zcodegen-backend=$CG_GCCJIT_DIR/target/release/librustc_codegen_gcc.so \
-    --sysroot $CG_GCCJIT_DIR/build_sysroot/sysroot \
+    --sysroot $CG_GCCJIT_DIR/build/build_sysroot/sysroot \
     --target $CG_GCCJIT_DIR/../misc/sh-elf.json \
     --emit=obj --crate-type=lib -O \
     "$@"

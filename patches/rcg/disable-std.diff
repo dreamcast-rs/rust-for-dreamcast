@@ -1,6 +1,6 @@
-diff --color -ruN rustc_codegen_gcc/build_sysroot/Cargo.toml rustc_codegen_gcc-fixed/build_sysroot/Cargo.toml
---- rustc_codegen_gcc/build_sysroot/Cargo.toml	2024-02-03 00:08:39.969395161 -0600
-+++ rustc_codegen_gcc-fixed/build_sysroot/Cargo.toml	2024-02-03 00:15:20.933513456 -0600
+diff --color -ruN rustc_codegen_gcc/build_system/build_sysroot/Cargo.toml rustc_codegen_gcc-fixed/build_system/build_sysroot/Cargo.toml
+--- rustc_codegen_gcc/build_system/build_sysroot/Cargo.toml	2024-04-10 12:55:03.365847139 -0500
++++ rustc_codegen_gcc-fixed/build_system/build_sysroot/Cargo.toml	2024-04-10 12:56:01.435157041 -0500
 @@ -8,14 +8,14 @@
  core = { path = "./sysroot_src/library/core" }
  compiler_builtins = "0.1"
@@ -18,4 +18,4 @@ diff --color -ruN rustc_codegen_gcc/build_sysroot/Cargo.toml rustc_codegen_gcc-f
 +#rustc-std-workspace-std = { path = "./sysroot_src/library/rustc-std-workspace-std" }
  
  [profile.release]
- debug = true
+ debug = "limited"
