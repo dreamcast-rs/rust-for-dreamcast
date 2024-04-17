@@ -40,7 +40,7 @@ prepare()
 build()
 {
     pushd $CG_GCCJIT_DIR > /dev/null
-    ./y.sh build --release --features master --target-triple sh-elf --target $CG_GCCJIT_DIR/../misc/sh-elf.json
+    ./y.sh build --sysroot --release --features master --target-triple sh-elf --target $CG_GCCJIT_DIR/../misc/sh-elf.json
     popd > /dev/null
 }
 
