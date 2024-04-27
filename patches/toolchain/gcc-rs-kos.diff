@@ -16,7 +16,7 @@ diff --color -ruN gcc-rs/gcc/config/sh/sh-c.cc gcc-rs-kos/gcc/config/sh/sh-c.cc
 diff --color -ruN gcc-rs/gcc/configure gcc-rs-kos/gcc/configure
 --- gcc-rs/gcc/configure	2023-06-05 16:47:14.998292084 -0500
 +++ gcc-rs-kos/gcc/configure	2023-06-05 16:47:19.935306714 -0500
-@@ -13015,7 +13015,7 @@
+@@ -13214,7 +13214,7 @@
      target_thread_file='single'
      ;;
    aix | dce | lynx | mipssde | posix | rtems | \
@@ -40,7 +40,7 @@ diff --color -ruN gcc-rs/libgcc/config/sh/t-sh gcc-rs-kos/libgcc/config/sh/t-sh
 diff --color -ruN gcc-rs/libgcc/configure gcc-rs-kos/libgcc/configure
 --- gcc-rs/libgcc/configure	2023-06-05 16:47:17.893300663 -0500
 +++ gcc-rs-kos/libgcc/configure	2023-06-05 16:47:19.936306716 -0500
-@@ -5699,6 +5699,7 @@
+@@ -5763,6 +5763,7 @@
      tpf)	thread_header=config/s390/gthr-tpf.h ;;
      vxworks)	thread_header=config/gthr-vxworks.h ;;
      win32)	thread_header=config/i386/gthr-win32.h ;;
@@ -51,7 +51,7 @@ diff --color -ruN gcc-rs/libgcc/configure gcc-rs-kos/libgcc/configure
 diff --color -ruN gcc-rs/libobjc/configure gcc-rs-kos/libobjc/configure
 --- gcc-rs/libobjc/configure	2023-06-05 16:47:18.165301469 -0500
 +++ gcc-rs-kos/libobjc/configure	2023-06-05 16:47:19.937306720 -0500
-@@ -2918,11 +2918,9 @@
+@@ -2924,11 +2924,9 @@
  
  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
  /* end confdefs.h.  */
@@ -152,7 +152,7 @@ diff --color -ruN gcc-rs/libstdc++-v3/config/cpu/sh/atomicity.h gcc-rs-kos/libst
 diff --color -ruN gcc-rs/libstdc++-v3/configure gcc-rs-kos/libstdc++-v3/configure
 --- gcc-rs/libstdc++-v3/configure	2023-06-05 16:47:18.226301650 -0500
 +++ gcc-rs-kos/libstdc++-v3/configure	2023-06-05 16:47:19.941306731 -0500
-@@ -15809,6 +15809,7 @@
+@@ -15974,6 +15974,7 @@
      tpf)	thread_header=config/s390/gthr-tpf.h ;;
      vxworks)	thread_header=config/gthr-vxworks.h ;;
      win32)	thread_header=config/i386/gthr-win32.h ;;

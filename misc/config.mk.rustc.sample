@@ -8,7 +8,7 @@
 ###############################################################################
 ###############################################################################
 ### THIS CONFIG IS FOR AN EXPERIMENTAL VERSION OF GCC!
-## THERE ARE NO KNOWN ISSUES BUILDING THIS VERSION as of 2024-03-17.
+## THERE ARE NO KNOWN ISSUES BUILDING THIS VERSION as of 2024-04-25.
 ###############################################################################
 ###############################################################################
 
@@ -114,13 +114,13 @@ install_mode=install-strip
 # detected on some OS.
 makejobs=-j2
 
-# Languages (c|c++|objc|obj-c++,jit)
-# Set the languages to build for pass 2 of building gcc for sh-elf. The default
-# here is to build C, C++, Objective-C, Objective-C++, and Rust. You may want
-# to take out some languages if you're not worried about them and/or you're
-# short on hard drive space. Only C is required to build KallistiOS, but some
-# included examples use other languages.
-# jit is also an option here for use with rustc_codegen_gcc.
+# Languages (c|c++|objc|obj-c++|d|rust|jit)
+# Set the languages to build for sh-elf gcc compilation pass 2. The default is
+# to build everything used by all KOS examples; however, only C is actually
+# required for KOS itself. D may also be enabled optionally on POSIX platforms
+# which have its external dependencies installed. The experimental GCCRS Rust
+# compiler can be enabled as well. jit is also an option here for use with
+# rustc_codegen_gcc.
 pass2_languages=c,c++,objc,obj-c++,jit
 
 # Enable host shared
@@ -130,18 +130,20 @@ pass2_languages=c,c++,objc,obj-c++,jit
 # slow compilation times.
 enable_host_shared=1
 
-# Floating point precision support (m4|m4-single|m4-single-only)
+# Floating point precision support (m4-single-only|m4-single|m4)
 # Build support for various SH4 floating-point operation ABIs. KallistiOS only
-# officially supports single-precision-only mode. Add m4 (double precision) or
-# m4-single (single precision) to build experimental support for those ABIs.
-# rustc_codegen_gcc does not support m4-single-only mode, however.
-precision_modes=m4-single
+# officially supports single-precision-only mode (m4-single-only); however,
+# experimental support for single-precision-default mode (m4-single) has just
+# been added to allow for the use of full 64-bit doubles. You may also add m4
+# (double-precision-default) which hasn't been tested, or you can simply stick
+# with m4-single-only to save disk space.
+precision_modes=m4-single-only,m4-single
 
 # Default floating point mode (m4|m4-single|m4-single-only)
 # Choose the default floating point precision ABI used when GCC is invoked. This
 # can be overridden by using passing -m4, -m4-single, or -m4-single-only to GCC.
-# KallistiOS currently only supports m4-single-only, so that is the default.
-default_precision=m4-single
+# KOS currently only officially supports m4-single-only, so it is the default.
+default_precision=m4-single-only
 
 # GCC threading model (single|kos|posix*)
 # With GCC 4.x versions and up, the patches provide a 'kos' thread model, so you
@@ -181,6 +183,11 @@ newlib_c99_formats=1
 # build Newlib with compiler flags which favor smaller code sizes over faster
 # performance.
 #newlib_opt_space=1
+
+# Disable GCC Native Language Support (1|0)
+# By default, NLS allows GCC to output diagnostics in non-English languages.
+# Set this variable to disable NLS, forcing GCC to output in American English.
+#disable_nls=1
 
 # MinGW/MSYS
 # Standalone binaries (1|0)
