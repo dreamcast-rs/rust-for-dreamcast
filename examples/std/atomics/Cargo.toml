@@ -1,0 +1,7 @@
+[package]
+name = "atomics"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+kos = { package = "kos-rs", features = ["std"], git = "https://github.com/dreamcast-rs/kos-rs" }

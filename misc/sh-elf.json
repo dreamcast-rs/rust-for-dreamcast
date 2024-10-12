@@ -1,16 +1,20 @@
 {
   "arch": "mips",
-  "os": "kallistios",
-  "data-layout": "e-m:m-p:32:32-i8:8:32-i16:16:32-i64:64-n32-S64",
-  "env": "newlib",
-  "has-rpath": false,
   "llvm-target": "mips-unknown-linux-gnu",
+  "os": "kallistios",
+  "data-layout": "e-m:e-p:32:32-i8:8:8-i16:16:16-i64:64-n32-S64",
+  "env": "newlib",
+  "target-family": "unix",
+  "has-rpath": false,
   "max-atomic-width": 32,
   "position-independent-executables": false,
+  "is-builtin": false,
   "panic-strategy": "abort",
   "linker-flavor": "gcc",
   "split-debuginfo": "off",
   "target-endian": "little",
   "target-pointer-width": "32",
-  "exe-suffix": ".elf"
+  "exe-suffix": ".elf",
+  "has-thread-local": true,
+  "tls-model": "local-exec"
 }

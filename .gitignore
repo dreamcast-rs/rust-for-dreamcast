@@ -1,0 +1,10 @@
+*.o
+*.elf
+Cargo.lock
+target/
+kos/
+kos-ports/
+libc/
+rustc_codegen_gcc/
+sh-elf/
+sysroot/

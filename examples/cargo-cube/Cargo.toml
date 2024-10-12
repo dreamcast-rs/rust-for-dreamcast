@@ -1,7 +1,0 @@
-[package]
-name = "rust-cube"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-kos = { package = "kos-rs",  path = "/opt/toolchains/dc/rust/kos-rs" }
