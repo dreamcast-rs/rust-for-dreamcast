@@ -41,6 +41,13 @@ if [ ! -e "${KOS_CC_BASE}/lib/libgccjit.so" ]; then
     exit 1
 fi
 
+### Check for rustup
+if ! command -v rustup &> /dev/null; then
+    echo "rustup is not installed on your system, but it is required to compile"
+    echo " rustc_codegen_gcc with the proper nightly toolchain version. Please"
+    echo " install rustup by following the instructions at https://rustup.rs/."
+fi
+
 ### Clone the rustc_codegen_gcc repo to $KOS_RCG_BASE
 echo -e "\033[1;31m[2/9]\033[0m Cloning rustc_codegen_gcc repository..."
 rm -rf ${KOS_RUST_BASE}/rustc_codegen_gcc
