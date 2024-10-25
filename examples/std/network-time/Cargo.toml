@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 chrono = "0.4.37"
-kos = { package = "kos-rs", features = ["std"], git = "https://github.com/dreamcast-rs/kos-rs" }
+kos = { package = "kos-rs", git = "https://github.com/dreamcast-rs/kos-rs" }
 
 [patch.crates-io]
 libc = { path = "/opt/toolchains/dc/rust/libc" }

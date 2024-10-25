@@ -7,4 +7,4 @@ edition = "2021"
 crate-type = ["staticlib"]
 
 [dependencies]
-kos = { package = "kos-rs", git = "https://github.com/dreamcast-rs/kos-rs" }
+kos = { package = "kos-rs", git = "https://github.com/dreamcast-rs/kos-rs", default-features = false }
