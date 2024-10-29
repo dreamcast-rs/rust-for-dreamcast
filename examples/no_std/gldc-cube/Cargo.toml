@@ -5,3 +5,4 @@ edition = "2021"
 
 [dependencies]
 kos = { package = "kos-rs", git = "https://github.com/dreamcast-rs/kos-rs", default-features = false }
+gldc = { package = "gldc-sys", git = "https://github.com/dreamcast-rs/gldc-sys" }
