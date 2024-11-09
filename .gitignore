@@ -4,6 +4,8 @@ Cargo.lock
 target/
 kos/
 kos-ports/
+kos-rs/
+kos-sys/
 libc/
 rustc_codegen_gcc/
 sh-elf/

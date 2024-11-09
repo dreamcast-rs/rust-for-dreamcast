@@ -1,7 +1,5 @@
-#![no_std]
 #![no_main]
-extern crate alloc;
-use kos::println;
+extern crate kos;
 use gldc::{
     gl::*, glext::*, glkos::*, glu::*,
 };
