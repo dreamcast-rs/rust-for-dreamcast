@@ -1,16 +1,16 @@
 #![no_main]
-extern crate kos;
 use chrono::Local;
 use std::net::UdpSocket;
 
 #[no_mangle]
 extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
-    extern "C" { 
-        fn bba_la_init();
-        fn arch_init_net();
+    extern "C" {
+        pub fn arch_init_net();
+        pub fn bba_init();
     }
     unsafe { 
-        bba_la_init();
+        kos::kos_sys::dc::net::lan_adapter::la_init();
+        bba_init();
         arch_init_net();
     }
 
