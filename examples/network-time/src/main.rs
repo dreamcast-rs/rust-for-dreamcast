@@ -6,11 +6,10 @@ use std::net::UdpSocket;
 extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
     extern "C" {
         pub fn arch_init_net();
-        pub fn bba_init();
     }
     unsafe { 
         kos::kos_sys::dc::net::lan_adapter::la_init();
-        bba_init();
+        kos::kos_sys::dc::net::broadband_adapter::bba_init();
         arch_init_net();
     }
 
