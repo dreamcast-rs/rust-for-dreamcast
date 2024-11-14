@@ -17,6 +17,15 @@ opt-level = 3
 overflow-checks = false
 strip = "symbols"
 
+# libc crate with KallistiOS is not published, so override any
+# dependency upon this crate with our local version from dreamcast-rs
 [patch.crates-io]
 libc = { path = "/opt/toolchains/dc/rust/libc" }
 
+# Uncomment to use local version of kos-rs crate
+#[patch.'https://github.com/dreamcast-rs/kos-rs']
+#kos = { package = "kos-rs", path = "/opt/toolchains/dc/rust/kos-rs" }
+
+# Uncomment to use local version of kos-sys crate
+#[patch.'https://github.com/dreamcast-rs/kos-sys']
+#kos-sys = { package = "kos-sys", path = "/opt/toolchains/dc/rust/kos-sys" }
