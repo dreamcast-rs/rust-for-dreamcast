@@ -1,5 +1,5 @@
 #![no_main]
-use kos::kos_sys::{
+use kos::ffi::{
     dc::maple,
     MAPLE_FOREACH,
 };
