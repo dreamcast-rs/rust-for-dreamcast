@@ -6,6 +6,3 @@ edition = "2021"
 [dependencies]
 kos = { package = "kos-rs", git = "https://github.com/dreamcast-rs/kos-rs" }
 tokio = { version = "1.40.0", features = ["rt", "time", "rt-multi-thread"] }
-
-[patch.crates-io]
-libc = { path = "/opt/toolchains/dc/rust/libc" }

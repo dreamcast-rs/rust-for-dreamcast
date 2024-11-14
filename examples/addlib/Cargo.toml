@@ -5,9 +5,3 @@ edition = "2021"
 
 [lib]
 crate-type = ["staticlib"]
-
-[dependencies]
-kos = { package = "kos-rs", git = "https://github.com/dreamcast-rs/kos-rs" }
-
-[patch.crates-io]
-libc = { path = "/opt/toolchains/dc/rust/libc" }

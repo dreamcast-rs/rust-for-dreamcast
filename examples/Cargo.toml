@@ -1,0 +1,22 @@
+[workspace]
+members = [
+    "addlib",
+    "atomics",
+    "filesystem-io",
+    "gldc-cube",
+    "hello-cargo",
+    "network-time",
+    "pvr_strips_direct",
+    "threads",
+    "tokio-async",
+]
+resolver = "2"
+
+[profile.release]
+opt-level = 3
+overflow-checks = false
+strip = "symbols"
+
+[patch.crates-io]
+libc = { path = "/opt/toolchains/dc/rust/libc" }
+

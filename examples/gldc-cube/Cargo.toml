@@ -6,6 +6,3 @@ edition = "2021"
 [dependencies]
 kos = { package = "kos-rs", git = "https://github.com/dreamcast-rs/kos-rs" }
 gldc = { package = "gldc-sys", git = "https://github.com/dreamcast-rs/gldc-sys" }
-
-[patch.crates-io]
-libc = { path = "/opt/toolchains/dc/rust/libc" }
