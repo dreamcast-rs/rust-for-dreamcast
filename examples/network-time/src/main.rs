@@ -2,17 +2,10 @@
 use chrono::Local;
 use std::net::UdpSocket;
 
+kos::INIT_FLAGS!(INIT_DEFAULT | INIT_NET);
+
 #[no_mangle]
 extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
-    extern "C" {
-        pub fn arch_init_net();
-    }
-    unsafe { 
-        kos::kos_sys::dc::net::lan_adapter::la_init();
-        kos::kos_sys::dc::net::broadband_adapter::bba_init();
-        arch_init_net();
-    }
-
     println!("Hello, world from Rust! - network-time example");
 
     let current_time = Local::now();
