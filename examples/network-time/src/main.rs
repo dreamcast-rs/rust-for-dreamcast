@@ -1,11 +1,9 @@
-#![no_main]
 use chrono::Local;
 use std::net::UdpSocket;
 
 kos::INIT_FLAGS!(INIT_DEFAULT | INIT_NET);
 
-#[no_mangle]
-extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
+fn main() {
     println!("Hello, world from Rust! - network-time example");
 
     let current_time = Local::now();
@@ -53,6 +51,4 @@ extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
     println!("Current time from NTP server: {}", datetime);
 
     println!("Bye!");
-
-    0
 }

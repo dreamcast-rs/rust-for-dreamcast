@@ -1,4 +1,3 @@
-#![no_main]
 #![feature(raw_ref_op)]
 use kos::{
     dbglog, dbglog::DbgLevel::{ Debug, Info },
@@ -9,6 +8,8 @@ use kos::{
 };
 use std::mem::{MaybeUninit, size_of, zeroed};
 use std::time::{SystemTime, UNIX_EPOCH};
+
+kos::INIT_FLAGS!(INIT_DEFAULT);
 
 enum Phase {
     Halve,
@@ -244,13 +245,10 @@ fn print_stats() {
             stats.vbl_count, stats.frame_rate);
 }
 
-#[no_mangle]
-extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
+fn main() {
     dbglog!(Info, "Hello, world from Rust! - pvrmark_strips_direct example\n");
     
     PvrMark::new().run_benchmark();
     
     print_stats();
-
-    0
 }

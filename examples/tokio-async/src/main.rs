@@ -1,5 +1,3 @@
-#![no_main]
-extern crate kos;
 use std::time::{Duration, Instant};
 use tokio::runtime::Builder;
 use tokio::time::sleep;
@@ -25,8 +23,7 @@ async fn factorial(n: usize) -> usize {
     result
 }
 
-#[no_mangle]
-extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
+fn main() {
     println!("Hello, world from Rust! - tokio async example");
 
     let test_num = CALC_FACTORIAL;
@@ -52,6 +49,4 @@ extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
     println!("Time elapsed: {:?}", start_time.elapsed());
 
     println!("Bye!");
-
-    0
 }

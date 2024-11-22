@@ -1,5 +1,3 @@
-#![no_main]
-extern crate kos;
 use std::path::Path;
 use std::fs::{File, read_dir};
 use std::io::Read;
@@ -22,8 +20,7 @@ fn list_dir_contents(dir_path: &Path) {
     }
 }
 
-#[no_mangle]
-extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
+fn main() {
     println!("Hello, world from Rust! - filesystem-io example");
 
     println!("Printing all dirs in the root of the filesystem...");
@@ -42,6 +39,4 @@ extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
     println!("{}", contents);
 
     println!("Bye!");
-
-    0
 }

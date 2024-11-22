@@ -1,11 +1,8 @@
-#![no_main]
-extern crate kos;
 use std::sync::atomic::{AtomicU32, Ordering};
 use std::sync::Arc;
 use std::thread;
 
-#[no_mangle]
-extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
+fn main() {
     println!("Hello, world from Rust! - atomics example");
 
     // Create a new atomic u32 value
@@ -34,6 +31,4 @@ extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
     println!("Final value: {}", final_value);
 
     println!("Bye!");
-
-    0
 }

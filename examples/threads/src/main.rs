@@ -1,4 +1,3 @@
-#![no_main]
 use kos::dbglog::DbgLevel::Info;
 use kos::dbglog;
 use std::thread;
@@ -6,8 +5,7 @@ use std::time::Duration;
 
 const NUM_THREADS: usize = 50;
 
-#[no_mangle]
-extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
+fn main() {
     dbglog!(Info, "Hello, world from Rust! - threads example\n");
     dbglog!(Info, "Spawning {NUM_THREADS} threads!\n");
 
@@ -36,6 +34,4 @@ extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
 
     dbglog!(Info, "All threads have finished.\n");
     dbglog!(Info, "Bye!\n");
-
-    0
 }

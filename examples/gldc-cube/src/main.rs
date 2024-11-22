@@ -1,4 +1,3 @@
-#![no_main]
 use kos::ffi::{
     dc::maple,
     MAPLE_FOREACH,
@@ -15,8 +14,7 @@ static GCC_DATA: &[u8] = include_bytes!("../rsrc/tex_gcc.vq");
 static KOS_DATA: &[u8] = include_bytes!("../rsrc/tex_kos.vq");
 static RUST_DATA: &[u8] = include_bytes!("../rsrc/tex_rust.vq");
 
-#[no_mangle]
-extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
+fn main() {
     unsafe {
         // Initialize GLdc
         glKosInit();
@@ -225,6 +223,4 @@ extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
     }
 
     println!("Bye!");
-
-    0
 }
