@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="misc/logo.png" alt="Ferris holding a Dreamcast controller" />
+  <img src="https://github.com/dreamcast-rs/.github/blob/main/images/ferris-dc-controller.png?raw=true" alt="Ferris holding a Dreamcast controller" />
   <h1 align="center"><strong>Rust for Dreamcast</strong></h1>
   <p align="center">
     Supporting files to create Rust software for Sega Dreamcast with KallistiOS
