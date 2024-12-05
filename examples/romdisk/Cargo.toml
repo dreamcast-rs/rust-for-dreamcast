@@ -1,0 +1,11 @@
+[package]
+name = "romdisk"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+kos = { package = "kos-rs", git = "https://github.com/dreamcast-rs/kos-rs" }
+
+[build-dependencies]
+cc = "1.0"
+

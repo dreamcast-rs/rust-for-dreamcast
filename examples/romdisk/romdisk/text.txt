@@ -1,0 +1,1 @@
+Hi! This text is from the file text.txt, which is included on a romdisk.
