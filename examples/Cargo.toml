@@ -6,7 +6,7 @@ members = [
     "gldc-cube",
     "hello-cargo",
     "network-time",
-    "pvr_strips_direct",
+    "pvr/pvrmark_strips_direct",
     "romdisk",
     "threads",
     "tokio-async",
