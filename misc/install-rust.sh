@@ -9,7 +9,7 @@
 RUST_NIGHTLY=2024-08-10
 
 ### Nightlies in progress upstream
-#RUST_NIGHTLY=2024-10-08
+#RUST_NIGHTLY=2024-12-10
 
 ### Use libc/sysroot locally instead of from dreamcast-rs repos
 #USE_LOCAL_LIBC=/home/darc/rust-kos/libc
@@ -54,8 +54,8 @@ rm -rf ${KOS_RUST_BASE}/rustc_codegen_gcc
 mkdir -p ${KOS_RUST_BASE}
 mkdir -p ${KOS_RCG_BASE}
 case "${RUST_NIGHTLY}" in
-    "2024-10-08" )
-        git clone https://github.com/rust-lang/rustc_codegen_gcc.git -b sync_from_rust_2024_10_08 ${KOS_RCG_BASE}
+    "2024-12-10" )
+        git clone https://github.com/rust-lang/rustc_codegen_gcc.git -b sync_from_rust_2024_12_11 ${KOS_RCG_BASE}
         ;;
     "2024-03-09" | "2024-07-01" | "2024-08-10" | * )
         git clone https://github.com/dreamcast-rs/rustc_codegen_gcc.git -b ${RUST_NIGHTLY} ${KOS_RCG_BASE}
@@ -118,7 +118,7 @@ case "${RUST_NIGHTLY}" in
     "2024-03-09" | "2024-07-01" )
         RCG_FEATURES=master
         ;;
-    "2024-08-10" | "2024-10-08" | * )
+    "2024-08-10" | "2024-12-10" | * )
         RCG_FEATURES=compiler_builtins/no-f16-f128
         ;;
 esac
