@@ -8,7 +8,6 @@
   "has-rpath": false,
   "max-atomic-width": 32,
   "position-independent-executables": false,
-  "is-builtin": false,
   "panic-strategy": "abort",
   "linker-flavor": "gcc",
   "split-debuginfo": "off",
