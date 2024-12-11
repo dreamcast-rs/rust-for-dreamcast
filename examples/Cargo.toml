@@ -4,7 +4,7 @@ members = [
     "atomics",
     "filesystem-io",
     "gldc-cube",
-    "hello-cargo",
+    "hello",
     "network-time",
     "pvr/pvrmark_strips_direct",
     "romdisk",
