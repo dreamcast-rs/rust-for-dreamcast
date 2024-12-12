@@ -5,6 +5,7 @@ members = [
     "filesystem-io",
     "gldc-cube",
     "hello",
+    "http",
     "network-time",
     "pvr/pvrmark_strips_direct",
     "romdisk",
