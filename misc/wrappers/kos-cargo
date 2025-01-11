@@ -1,0 +1,34 @@
+#!/bin/bash
+# Rust for KallistiOS/Dreamcast
+# Copyright (C) 2024 Eric Fradella
+# https://dreamcast.rs/
+
+## Helper script for invoking `cargo` for rustc_codegen_gcc for KallistiOS/Dreamcast
+
+case "$1" in
+    "build" )
+         CG_RUSTFLAGS="${KOS_RCG_RUSTFLAGS}" CHANNEL="release" \
+             ${KOS_RCG_CARGO} cargo $@ \
+             --config "target.sh-elf.linker=\"sh-linker-wrapper\"" \
+             --target ${KOS_RUST_BASE}/misc/sh-elf.json
+        ;;
+    "run" )
+        if [ "$KOS_LOADER" = "" ]; then
+            echo "No KOS_LOADER environment variable set. Set one to use kos-cargo run!"
+            exit 1;
+        fi
+        cargo_output=$(kos-cargo build ${@:2} --message-format=json)
+        if [ $? -eq 0 ]; then
+            cargo_output_path=$(echo "$cargo_output" | grep -o '"executable":"[^"]*"' | sed 's/"executable":"//;s/"//')
+            $KOS_LOADER $cargo_output_path
+        else
+            echo "Use kos-cargo build to see errors."
+        fi
+        ;;
+    * )
+        CG_RUSTFLAGS="${KOS_RCG_RUSTFLAGS}" CHANNEL="release" \
+            ${KOS_RCG_CARGO} cargo $@ \
+             --config "target.sh-elf.linker=\"sh-linker-wrapper\"" \
+             --target ${KOS_RUST_BASE}/misc/sh-elf.json
+        ;;
+esac

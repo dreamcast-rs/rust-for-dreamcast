@@ -3,12 +3,10 @@
 # Copyright (C) 2024 Eric Fradella
 # https://dreamcast.rs/
 
-### Nightlies available in dreamcast-rs repo
-#RUST_NIGHTLY=2024-03-09
-#RUST_NIGHTLY=2024-07-01
+### Latest nightly available in dreamcast-rs repo
 RUST_NIGHTLY=2024-08-10
 
-### Nightlies in progress upstream
+### Nightlies in progress upstream, untested/unstable!
 #RUST_NIGHTLY=2024-12-10
 
 ### Use libc/sysroot locally instead of from dreamcast-rs repos
@@ -41,6 +39,13 @@ if [ ! -e "${KOS_CC_BASE}/lib/libgccjit.so" ]; then
     exit 1
 fi
 
+### Check for libpthread-enabled KOS toolchain
+if grep -q "joel.sherrill@OARcorp.com" "${KOS_CC_BASE}/sh-elf/include/sys/_pthreadtypes.h"; then
+    echo "The sh-elf toolchain was built with a version of KallistiOS without libpthread."
+    echo " Please rebuild the toolchain using a version of KallistiOS with libpthread merged."
+    exit 1
+fi
+
 ### Check for rustup
 if ! command -v rustup &> /dev/null; then
     echo "rustup is not installed on your system, but it is required to compile"
@@ -57,7 +62,7 @@ case "${RUST_NIGHTLY}" in
     "2024-12-10" )
         git clone https://github.com/rust-lang/rustc_codegen_gcc.git -b sync_from_rust_2024_12_11 ${KOS_RCG_BASE}
         ;;
-    "2024-03-09" | "2024-07-01" | "2024-08-10" | * )
+    "2024-08-10" | * )
         git clone https://github.com/dreamcast-rs/rustc_codegen_gcc.git -b ${RUST_NIGHTLY} ${KOS_RCG_BASE}
         ;;
 esac
@@ -93,12 +98,15 @@ rm -f ${KOS_RUST_BASE}/sysroot/library/stdarch/Cargo.toml
 ### Write GCC path to rustc_codegen_gcc config
 echo "gcc-path = \"${KOS_CC_BASE}/lib\"" > ${KOS_RCG_BASE}/config.toml
 
-### Install sh-linker-wrapper
-echo -e "\033[1;31m[6/9]\033[0m Building/Installing sh-linker-wrapper..."
-pushd ${KOS_RUST_BASE}/misc/sh-linker-wrapper > /dev/null
+### Install sh-linker-wrapper and build wrappers
+echo -e "\033[1;31m[6/9]\033[0m Installing build wrappers..."
+mkdir -p ${DC_TOOLS_BASE}
+pushd ${KOS_RUST_BASE}/misc/wrappers/sh-linker-wrapper > /dev/null
 cargo build --release
-cp target/release/sh-linker-wrapper ${KOS_BASE}/utils/build_wrappers/.
+cp target/release/sh-linker-wrapper ${DC_TOOLS_BASE}/.
 popd > /dev/null
+cp ${KOS_RUST_BASE}/misc/wrappers/kos-cargo ${DC_TOOLS_BASE}/.
+cp ${KOS_RUST_BASE}/misc/wrappers/kos-rustc ${DC_TOOLS_BASE}/.
 
 ### Enter build system dir, build the build_system, and return back to rustc_codegen_gcc dir
 echo -e "\033[1;31m[7/9]\033[0m Building rustc_codegen_gcc build system..."
@@ -114,19 +122,10 @@ CG_RUSTFLAGS="${KOS_RCG_RUSTFLAGS}" CHANNEL="release" \
     --sysroot-source ${KOS_RUST_BASE}/sysroot
 
 echo -e "\033[1;31m[9/9]\033[0m Running rustc_codegen_gcc sysroot build stage..."
-case "${RUST_NIGHTLY}" in
-    "2024-03-09" | "2024-07-01" )
-        RCG_FEATURES=master
-        ;;
-    "2024-08-10" | "2024-12-10" | * )
-        RCG_FEATURES=compiler_builtins/no-f16-f128
-        ;;
-esac
-
 CG_RUSTFLAGS="${KOS_RCG_RUSTFLAGS}" CHANNEL="release" \
     ${KOS_RCG_CARGO} build \
     --sysroot --release --release-sysroot \
-    --features ${RCG_FEATURES} \
+    --features compiler_builtins/no-f16-f128 \
     --target-triple sh-elf \
     --target ${KOS_RUST_BASE}/misc/sh-elf.json
 

@@ -34,7 +34,7 @@ export DC_ARM_PREFIX="arm-eabi"
 # installed. This includes, for example, dc-tool-ip, dc-tool-serial, and the
 # mrbc bytecode compiler. This directory, along with SH and ARM compiler
 # toolchains, will be added to your PATH environment variable.
-export DC_TOOLS_BASE="/opt/toolchains/dc/bin"
+export DC_TOOLS_BASE="/opt/toolchains/dc/rust/bin"
 
 ### CMake Toolchain Path
 # Specifies the path to the toolchain file used to target
@@ -151,3 +151,11 @@ export KOS_SH4_PRECISION="-m4-single"
 # environment settings. If you want to configure additional compiler
 # options or see where other build flags are set, look at this file.
 . ${KOS_BASE}/environ_base.sh
+
+### Default KOS_RCG_RUSTFLAGS
+# These RUSTFLAGS are required to be enabled and will likely be upstreamed to
+# environ_dreamcast.sh in upstream KallistiOS at a later time. Do not modify
+# them unless you know exactly what you are doing.
+export KOS_RCG_RUSTFLAGS="${KOS_RCG_RUSTFLAGS} -Cllvm-args=${KOS_SH4_PRECISION} -Cllvm-args=-ml"
+export KOS_RCG_RUSTFLAGS="${KOS_RCG_RUSTFLAGS} -Cllvm-args=-ffunction-sections -Cllvm-args=-fdata-sections"
+export KOS_RCG_RUSTFLAGS="${KOS_RCG_RUSTFLAGS} -Cllvm-args=-matomic-model=soft-imask -Cllvm-args=-ftls-model=local-exec"

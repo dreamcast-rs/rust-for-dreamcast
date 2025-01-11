@@ -6,6 +6,7 @@ kos/
 kos-ports/
 kos-rs/
 kos-sys/
+bin/
 libc/
 rustc_codegen_gcc/
 sh-elf/

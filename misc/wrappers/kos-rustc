@@ -1,0 +1,18 @@
+#!/bin/bash
+# Rust for KallistiOS/Dreamcast
+# Copyright (C) 2024 Eric Fradella
+# https://dreamcast.rs/
+
+## Helper script for invoking `rustc` for rustc_codegen_gcc for KallistiOS/Dreamcast
+
+export LD_LIBRARY_PATH="${KOS_CC_BASE}/lib"
+export LIBRARY_PATH="${KOS_CC_BASE}/lib"
+
+## FIXME: Adjust for release vs. debug
+rustc +$(cat ${KOS_RCG_BASE}/rust-toolchain | grep 'channel' | cut -d '=' -f 2 | sed 's/"//g' | sed 's/ //g') \
+    ${KOS_RCG_RUSTFLAGS} \
+    -Zcodegen-backend=${KOS_RCG_BASE}/target/release/librustc_codegen_gcc.so \
+    --sysroot ${KOS_RCG_BASE}/build/build_sysroot/sysroot \
+    --target ${KOS_RUST_BASE}/misc/sh-elf.json \
+    -Clinker=sh-linker-wrapper \
+    "$@"

@@ -20,11 +20,11 @@ enum Phase {
 
 struct PvrMark {
     hdr:        pvr_poly_hdr_t,
-    polycnt:    i32,
+    polycnt:    u32,
     phase:      Phase,
     avgfps:     Option<f32>,
     begin:      u64,
-    seed:       i32,
+    seed:       u32,
 }
 
 impl PvrMark {
@@ -44,13 +44,14 @@ impl PvrMark {
     
     fn run_benchmark(&mut self) {
         let mut pvr_params = pvr_init_params_t {
-            opb_sizes:          [PVR_BINSIZE_16, PVR_BINSIZE_0, PVR_BINSIZE_0,
-                                PVR_BINSIZE_0, PVR_BINSIZE_0],
-            vertex_buf_size:    512 * 1024,
-            dma_enabled:        0,
-            fsaa_enabled:       0,
-            autosort_disabled:  0,
-            opb_overflow_count: 0,
+            opb_sizes:               [PVR_BINSIZE_16, PVR_BINSIZE_0, PVR_BINSIZE_0,
+                                     PVR_BINSIZE_0, PVR_BINSIZE_0],
+            vertex_buf_size:         512 * 1024,
+            dma_enabled:             0,
+            fsaa_enabled:            0,
+            autosort_disabled:       0,
+            opb_overflow_count:      0,
+            vbuf_doublebuf_disabled: 0,
         };
 
         unsafe {
@@ -102,7 +103,7 @@ impl PvrMark {
         }
     }
 
-    fn switch_tests(&mut self, ppf: i32) {
+    fn switch_tests(&mut self, ppf: u32) {
         dbglog!(Debug, "Beginning new test: {} polys per frame ({} per second at 60fps)\n",
                 ppf, ppf * 60);
         self.avgfps = None;
@@ -124,7 +125,7 @@ impl PvrMark {
                         .as_secs();
             
             dbglog!(Debug, "  Average Frame Rate: ~{} fps ({} pps)\n",
-                    avgfps, self.polycnt * avgfps as i32);
+                    avgfps, self.polycnt * avgfps as u32);
                 
             match self.phase {
                 Phase::Halve => {
@@ -137,7 +138,7 @@ impl PvrMark {
                 },
                 Phase::Incr => {
                     if avgfps >= 55.0 {
-                        self.switch_tests(self.polycnt + 500);
+                        self.switch_tests(self.polycnt + 2500);
                     } else {
                         dbglog!(Debug, "  Entering Phase::Decr\n");
                         self.phase = Phase::Decr;
@@ -158,13 +159,17 @@ impl PvrMark {
     }
 
     #[inline]
-    fn nextnum(&mut self) {
+    fn getnum(&mut self, mn: u32) -> u32 {
+        let num = self.seed & (mn - 1);
         self.seed = self.seed.wrapping_mul(1164525).wrapping_add(1013904223);
+        num
     }
 
     #[inline]
-    fn getnum(&mut self, nm: i32) -> i32 {
-        self.seed & (nm - 1)
+    unsafe fn get_vert(&mut self, x: &mut u32, y: &mut u32, col: &mut u32) {
+        *x = (*x).wrapping_add(self.getnum(64) - 32) & 1023;
+        *y = (*y).wrapping_add(self.getnum(64) - 32) & 511;
+        *col = 0xff000000 | self.getnum(u32::MAX);
     }
 
     fn do_frame(&mut self) {
@@ -174,55 +179,48 @@ impl PvrMark {
             vid_border_color(255, 0, 0);
             pvr_scene_begin();
             pvr_list_begin(PVR_LIST_OP_POLY);
-            pvr_prim(&raw mut self.hdr as *mut c_void, size_of::<pvr_poly_hdr_t>() as i32);
+            pvr_prim(&raw mut self.hdr as *mut c_void, size_of::<pvr_poly_hdr_t>());
 
             let mut dr_state: MaybeUninit<pvr_dr_state_t> = MaybeUninit::uninit();         
             pvr_dr_init(dr_state.as_mut_ptr());
             let mut dr_state = dr_state.assume_init();
             
-            let mut x = self.getnum(1024);
-            self.nextnum();
-            let mut y = self.getnum(512);
-            self.nextnum();
-            let z = self.getnum(128) + 1;
-            self.nextnum();
-            let mut col = self.getnum(256) as u32;
-            self.nextnum();
+            let mut x = 0;
+            let mut y = 0;
+            let mut col = 0;
+
+            self.get_vert(&mut x, &mut y, &mut col);
+            let z = (self.getnum(128) + 1) as f32;
 
             let mut vert = pvr_dr_target(&mut dr_state);
             (*vert).flags = PVR_CMD_VERTEX;
             (*vert).x = x as f32;
             (*vert).y = y as f32;
-            (*vert).z = z as f32;
-            (*vert).u = 0.0;
-            (*vert).v = 0.0;
-            (*vert).argb = col | (col << 8) | (col << 16) | 0xff000000;
-            (*vert).oargb = 0;
+            (*vert).z = z;
+            (*vert).argb = col;
             pvr_dr_commit(vert as *const c_void);
 
-            for i in 0..self.polycnt {
-                x = x.wrapping_add(self.getnum(64) - 32) & 1023;
-                self.nextnum();
-                y = y.wrapping_add(self.getnum(64) - 32) % 511;
-                self.nextnum();
-                col = self.getnum(256) as u32;
-                self.nextnum();
+            for _ in 0..self.polycnt {
+                self.get_vert(&mut x, &mut y, &mut col);
                 vert = pvr_dr_target(&mut dr_state);
                 (*vert).flags = PVR_CMD_VERTEX;
                 (*vert).x = x as f32;
                 (*vert).y = y as f32;
-                (*vert).z = z as f32;
-                (*vert).u = 0.0;
-                (*vert).v = 0.0;
-                (*vert).argb = col | (col << 8) | (col << 16) | 0xff000000;
-                (*vert).oargb = 0;
+                (*vert).z = z;
+                (*vert).argb = col;
                 
-                if i == (self.polycnt - 1) {
-                    (*vert).flags = PVR_CMD_VERTEX_EOL;
-                }
-
                 pvr_dr_commit(vert as *const c_void);
             }
+
+            self.get_vert(&mut x, &mut y, &mut col);
+            vert = pvr_dr_target(&mut dr_state);
+            (*vert).flags = PVR_CMD_VERTEX_EOL;
+            (*vert).x = x as f32;
+            (*vert).y = y as f32;
+            (*vert).z = z;
+            (*vert).argb = col;
+
+            pvr_dr_commit(vert as *const c_void);
             
             pvr_list_finish();
             pvr_scene_finish();
