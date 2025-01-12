@@ -1,4 +1,3 @@
-#![feature(raw_ref_op)]
 use kos::{
     dbglog, dbglog::DbgLevel::{ Debug, Info },
     ffi::{
