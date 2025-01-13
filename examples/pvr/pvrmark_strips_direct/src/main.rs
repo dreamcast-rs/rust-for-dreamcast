@@ -165,9 +165,9 @@ impl PvrMark {
     }
 
     #[inline]
-    unsafe fn get_vert(&mut self, x: &mut u32, y: &mut u32, col: &mut u32) {
-        *x = (*x).wrapping_add(self.getnum(64) - 32) & 1023;
-        *y = (*y).wrapping_add(self.getnum(64) - 32) & 511;
+    fn get_vert(&mut self, x: &mut u32, y: &mut u32, col: &mut u32) {
+        *x = (*x).wrapping_add(self.getnum(64).wrapping_sub(32)) & 1023;
+        *y = (*y).wrapping_add(self.getnum(64).wrapping_sub(32)) & 511;
         *col = 0xff000000 | self.getnum(u32::MAX);
     }
 
