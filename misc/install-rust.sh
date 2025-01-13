@@ -4,7 +4,7 @@
 # https://dreamcast.rs/
 
 ### Latest nightly available in dreamcast-rs repo
-RUST_NIGHTLY=2024-12-10
+RUST_NIGHTLY=2025-01-11
 
 ### Nightlies in progress upstream, untested/unstable!
 # None
@@ -59,10 +59,10 @@ rm -rf ${KOS_RUST_BASE}/rustc_codegen_gcc
 mkdir -p ${KOS_RUST_BASE}
 mkdir -p ${KOS_RCG_BASE}
 case "${RUST_NIGHTLY}" in
-#   "2024-12-10" )
-#        git clone https://github.com/rust-lang/rustc_codegen_gcc.git -b sync_from_rust_2024_12_11 ${KOS_RCG_BASE}
-#        ;;
-    "2024-12-10" | "2024-08-10" | * )
+#   "2025-01-11" )
+#       git clone https://github.com/rust-lang/rustc_codegen_gcc.git -b sync_from_rust_2025_01_12 ${KOS_RCG_BASE}
+#       ;;
+    "2025-01-11" | * )
         git clone https://github.com/dreamcast-rs/rustc_codegen_gcc.git -b ${RUST_NIGHTLY} ${KOS_RCG_BASE}
         ;;
 esac
