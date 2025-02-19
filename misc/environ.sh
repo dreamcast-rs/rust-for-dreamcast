@@ -119,14 +119,14 @@ export KOS_CFLAGS="${KOS_CFLAGS} -fomit-frame-pointer"
 ### GCC Builtin Functions
 # Uncomment this line to prevent GCC from using its own builtin implementations
 # of certain standard library functions.
-#export KOS_CFLAGS="${KOS_CFLAGS} -fno-builtin"
+export KOS_CFLAGS="${KOS_CFLAGS} -fno-builtin"
 
 ### Fast Math Instructions
 # Comment this line to disable the use of optimized fast-math instructions (FSSRA,
 # FSCA) for calculating sin/cos and inverse square root, and any math optimization
 # that does not guarantee compliance with the IEEE floating-point standard.
 # NOTE: Enabling this option will also override -fno-builtin!
-export KOS_CFLAGS="${KOS_CFLAGS} -fbuiltin -ffast-math -ffp-contract=fast"
+#export KOS_CFLAGS="${KOS_CFLAGS} -fbuiltin -ffast-math -ffp-contract=fast"
 
 ### SH4 Floating Point Arithmetic Precision
 # Make sure KallistiOS is set up to use "-m4-single" for floating point operations.
