@@ -5,7 +5,9 @@
 
 KOS_DC_CHAIN_DIR="/opt/toolchains/dc/rust/kos/utils/dc-chain"
 KOS_DC_CHAIN_OUTPUT_DIR="/opt/toolchains/dc/rust/sh-elf"
-KOS_DC_CHAIN_CONFIG_FILE="/opt/toolchains/dc/rust/misc/rust-toolchain.cfg"
+KOS_DC_CHAIN_CONFIG_FILE="/opt/toolchains/dc/rust/misc/dc-chain/rust-toolchain.cfg"
+KOS_DC_CHAIN_PATCH_FILE="/opt/toolchains/dc/rust/misc/dc-chain/gcc-rustc-kos.diff"
+KOS_DC_CHAIN_PROFILE="/opt/toolchains/dc/rust/misc/dc-chain/profile.rustc-dev.mk"
 
 # Get makejobs argument.
 for arg in "$@"; do
@@ -33,6 +35,9 @@ if [ -d "${KOS_DC_CHAIN_OUTPUT_DIR}" ]; then
     echo " Please remove or rename this directory before building a new toolchain."
     exit 1
 fi
+
+cp ${KOS_DC_CHAIN_PATCH_FILE} ${KOS_DC_CHAIN_DIR}/patches/
+cp ${KOS_DC_CHAIN_PROFILE} ${KOS_DC_CHAIN_DIR}/profiles/
 
 echo -e "\033[1;31m[2/5]\033[0m Downloading sh-elf toolchain prerequsites..."
 make -C ${KOS_DC_CHAIN_DIR} ${KOS_DC_CHAIN_RCG_FLAGS} fetch-sh4
