@@ -59,7 +59,7 @@ impl PvrMark {
             pvr_init(&raw mut pvr_params);
             pvr_set_bg_color(0.0, 0.0, 0.0);
             
-            pvr_poly_cxt_col(&raw mut cxt, PVR_LIST_OP_POLY);
+            pvr_poly_cxt_col(&raw mut cxt, pvr_list_type::PVR_LIST_OP_POLY);
             cxt.gen.shading = PVR_SHADE_FLAT;
             pvr_poly_compile(&raw mut self.hdr, &raw mut cxt);
         }
@@ -177,7 +177,7 @@ impl PvrMark {
             pvr_wait_ready();
             vid_border_color(255, 0, 0);
             pvr_scene_begin();
-            pvr_list_begin(PVR_LIST_OP_POLY);
+            pvr_list_begin(pvr_list_type::PVR_LIST_OP_POLY);
             pvr_prim(&raw mut self.hdr as *mut c_void, size_of::<pvr_poly_hdr_t>());
 
             let mut dr_state: MaybeUninit<pvr_dr_state_t> = MaybeUninit::uninit();         
