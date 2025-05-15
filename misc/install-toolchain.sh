@@ -22,7 +22,7 @@ set -e
 
 echo -e "\033[1;32mRust for KallistiOS/Dreamcast Toolchain Installer\033[0m\n"
 
-echo -e "\033[1;31m[1/5]\033[0m Checking prerequisites..."
+echo -e "\033[1;31m[1/4]\033[0m Checking prerequisites..."
 
 if [ ! -d "${KOS_DC_CHAIN_DIR}" ]; then
     echo "A KallistiOS dc-chain directory at ${KOS_DC_CHAIN_DIR} was not found."
@@ -39,14 +39,13 @@ fi
 cp ${KOS_DC_CHAIN_PATCH_FILE} ${KOS_DC_CHAIN_DIR}/patches/
 cp ${KOS_DC_CHAIN_PROFILE} ${KOS_DC_CHAIN_DIR}/profiles/
 
-echo -e "\033[1;31m[2/5]\033[0m Downloading sh-elf toolchain prerequsites..."
+echo -e "\033[1;31m[2/4]\033[0m Downloading sh-elf toolchain prerequsites..."
 make -C ${KOS_DC_CHAIN_DIR} ${KOS_DC_CHAIN_RCG_FLAGS} fetch-sh4
 
-echo -e "\033[1;31m[3/5]\033[0m Patching sh-elf toolchain components..."
+echo -e "\033[1;31m[3/4]\033[0m Patching sh-elf toolchain components..."
 make -C ${KOS_DC_CHAIN_DIR} ${KOS_DC_CHAIN_RCG_FLAGS} patch-sh4
 
-echo -e "\033[1;31m[4/5]\033[0m Installing sh-elf toolchain..."
+echo -e "\033[1;31m[4/4]\033[0m Installing sh-elf toolchain..."
 make -C ${KOS_DC_CHAIN_DIR} ${KOS_DC_CHAIN_RCG_FLAGS} build-sh4
 
-echo -e "\033[1;31m[5/5]\033[0m Installing gdb..."
-make -C ${KOS_DC_CHAIN_DIR} ${KOS_DC_CHAIN_RCG_FLAGS} gdb
+echo -e "\n\033[1;32msh-elf toolchain installed!\033[0m"

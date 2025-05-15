@@ -2,20 +2,20 @@
 # This file is part of KallistiOS.
 
 # Toolchain versions for SH
-sh_binutils_ver=2.43.1
+sh_binutils_ver=2.44
 sh_gcc_ver=rustc
 newlib_ver=4.5.0.20241231
-gdb_ver=15.2
+gdb_ver=16.2
 
 # Overide SH toolchain download type
 sh_gcc_download_type=git
-sh_gcc_git_repo=https://github.com/rust-lang/gcc.git
+sh_gcc_git_repo=https://github.com/dreamcast-rs/gcc.git
 sh_gcc_git_branch=master
 
 # Toolchain for ARM
 # The ARM version of gcc/binutils is separated as support for the ARM7DI core
 # used in the Dreamcast's AICA is not available in versions of GCC beyond 8.5.0.
-arm_binutils_ver=2.43.1
+arm_binutils_ver=2.44
 arm_gcc_ver=8.5.0
 
 # GCC custom dependencies
