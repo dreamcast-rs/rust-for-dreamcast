@@ -17,7 +17,7 @@ set -e
 
 echo -e "\033[1;32mRust for KallistiOS/Dreamcast Installer\033[0m\n"
 
-echo -e "\033[1;31m[1/9]\033[0m Checking prerequisites..."
+echo -e "\033[1;31m[1/10]\033[0m Checking prerequisites..."
 ### Check if KOS environment is sourced
 if [ -z "${KOS_BASE}" ]; then
     echo "KallistiOS environment is not sourced. Please source environ.sh before"
@@ -54,7 +54,7 @@ if ! command -v rustup &> /dev/null; then
 fi
 
 ### Clone the rustc_codegen_gcc repo to $KOS_RCG_BASE
-echo -e "\033[1;31m[2/9]\033[0m Cloning rustc_codegen_gcc repository..."
+echo -e "\033[1;31m[2/10]\033[0m Cloning rustc_codegen_gcc repository..."
 rm -rf ${KOS_RUST_BASE}/rustc_codegen_gcc
 mkdir -p ${KOS_RUST_BASE}
 mkdir -p ${KOS_RCG_BASE}
@@ -68,7 +68,7 @@ case "${RUST_NIGHTLY}" in
 esac
 
 ### Clone the libc repo to ${KOS_RCG_BASE}/libc
-echo -e "\033[1;31m[3/9]\033[0m Cloning Rust libc crate with KallistiOS support..."
+echo -e "\033[1;31m[3/10]\033[0m Cloning Rust libc crate with KallistiOS support..."
 rm -rf ${KOS_RUST_BASE}/libc
 if [ -n "${USE_LOCAL_LIBC}" ]; then
     cp -R ${USE_LOCAL_LIBC} ${KOS_RUST_BASE}/libc
@@ -78,7 +78,7 @@ else
 fi
 
 ### Clone the rust repo to $KOS_RCG_BASE/kos-rust
-echo -e "\033[1;31m[4/9]\033[0m Cloning Rust sysroot with KallistiOS support..."
+echo -e "\033[1;31m[4/10]\033[0m Cloning Rust sysroot with KallistiOS support..."
 rm -rf ${KOS_RUST_BASE}/sysroot
 if [ -n "${USE_LOCAL_SYSROOT}" ]; then
     cp -R ${USE_LOCAL_SYSROOT} ${KOS_RUST_BASE}/sysroot
@@ -92,14 +92,18 @@ fi
 pushd ${KOS_RCG_BASE} > /dev/null
 
 ### Apply any patches and adjustments, if necessary
-echo -e "\033[1;31m[5/9]\033[0m Applying patches and adjustments..."
+echo -e "\033[1;31m[5/10]\033[0m Applying patches and adjustments..."
 ### Remove extra file that rustc_codegen_gcc scripts will patch into existence
 rm -f ${KOS_RUST_BASE}/sysroot/library/stdarch/Cargo.toml
 ### Write GCC path to rustc_codegen_gcc config
 echo "gcc-path = \"${KOS_CC_BASE}/lib\"" > ${KOS_RCG_BASE}/config.toml
 
+### Make sure proper rust nightly is installed
+echo -e "\033[1;31m[6/10]\033[0m Installing necessary Rust nightly toolchain..."
+rustup toolchain install nightly-${RUST_NIGHTLY} -c rust-src -c rustc-dev -c llvm-tools-preview
+
 ### Install sh-linker-wrapper and build wrappers
-echo -e "\033[1;31m[6/9]\033[0m Installing build wrappers..."
+echo -e "\033[1;31m[7/10]\033[0m Installing build wrappers..."
 mkdir -p ${DC_TOOLS_BASE}
 pushd ${KOS_RUST_BASE}/misc/wrappers/sh-linker-wrapper > /dev/null
 cargo build --release
@@ -109,19 +113,19 @@ cp ${KOS_RUST_BASE}/misc/wrappers/kos-cargo ${DC_TOOLS_BASE}/.
 cp ${KOS_RUST_BASE}/misc/wrappers/kos-rustc ${DC_TOOLS_BASE}/.
 
 ### Enter build system dir, build the build_system, and return back to rustc_codegen_gcc dir
-echo -e "\033[1;31m[7/9]\033[0m Building rustc_codegen_gcc build system..."
+echo -e "\033[1;31m[8/10]\033[0m Building rustc_codegen_gcc build system..."
 pushd ${KOS_RCG_BASE}/build_system > /dev/null
 cargo build --release
 popd > /dev/null
 
 ### Prepare rustc_codegen_gcc using our custom sysroot source
-echo -e "\033[1;31m[8/9]\033[0m Running rustc_codegen_gcc cross-compiler preparation stage..."
+echo -e "\033[1;31m[9/10]\033[0m Running rustc_codegen_gcc cross-compiler preparation stage..."
 CG_RUSTFLAGS="${KOS_RCG_RUSTFLAGS}" CHANNEL="release" \
     ${KOS_RCG_CARGO} prepare \
     --cross \
     --sysroot-source ${KOS_RUST_BASE}/sysroot
 
-echo -e "\033[1;31m[9/9]\033[0m Running rustc_codegen_gcc sysroot build stage..."
+echo -e "\033[1;31m[10/10]\033[0m Running rustc_codegen_gcc sysroot build stage..."
 CG_RUSTFLAGS="${KOS_RCG_RUSTFLAGS}" CHANNEL="release" \
     ${KOS_RCG_CARGO} build \
     --sysroot --release --release-sysroot \
